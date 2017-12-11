@@ -5,6 +5,9 @@
 //Global Variables:
 HomeBG Background = new HomeBG(); 
 
+//font setup
+PFont myFont;
+
 
 
 void setup()
@@ -14,6 +17,7 @@ void setup()
   //Background.posTracker = new PVector(0, 0);
   Background.filename = "/Users/Stephen/Desktop/SCI-FI-UI/OOP-CA/OOP_Project/data/default.jpg";
   Background.BG = loadImage(Background.filename);
+  myFont = createFont("Gridnik", 32);
   
 }
 
@@ -26,6 +30,7 @@ void draw()
   
   textAlign(CENTER, CENTER);
   //textSize(relativeTitleTextSize);
+  textFont(myFont);
   text("mOS BETA - Martian UI", width/2, height/12);
   
   
