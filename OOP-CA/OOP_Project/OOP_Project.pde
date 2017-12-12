@@ -25,7 +25,7 @@ void setup()
   frameRate(120);
   loadData();
 
-  //Background.posTracker = new PVector(0, 0);
+  
   Background.filename = "default1.jpg";
   Background.BG = loadImage(Background.filename);
   martianFont = createFont("Gridnik", titleSize);
@@ -45,6 +45,7 @@ void draw()
   image(Background.BG,Background.posTracker.x,Background.posTracker.y,width, height);
   drawMenu();
   drawBarsNdStaticMenu();
+  Hoverchecker();
 
 }
 
@@ -56,7 +57,7 @@ void drawMenu()
   for (int i = 0; i<MenuButton.numButtons; i++)
   {
 
-    //rect(MenuButton.buttonStart.x, MenuButton.buttonStart.y-titleSize, MenuButton.buttonWidth, MenuButton.buttonHeight, 3, 6, 12, 18 );
+    rect(MenuButton.buttonStart.x, MenuButton.buttonStart.y-titleSize, MenuButton.buttonWidth, MenuButton.buttonHeight);
     textAlign(RIGHT, CENTER);
     
   
@@ -67,7 +68,9 @@ void drawMenu()
     
     //save button hotspots for button hovering/clicking
     menuitems.get(i).startMenuItem.x = MenuButton.buttonStart.x;
-    menuitems.get(i).startMenuItem.y = MenuButton.buttonStart.y;
+    menuitems.get(i).startMenuItem.y = MenuButton.buttonStart.y-titleSize;
+    menuitems.get(i).itemWidth = MenuButton.buttonWidth;
+    menuitems.get(i).itemHeight = MenuButton.buttonHeight;
     
     MenuButton.buttonStart.y +=  MenuButton.gapY;
     
@@ -224,3 +227,20 @@ void loadWheel(PVector Cords)
   InitialAngle += 0.1;
   popMatrix();
 }
+
+void Hoverchecker()
+{
+  for(int i=0; i<menuitems.size(); i++)
+  {
+    if(mouseX>menuitems.get(i).startMenuItem.x && mouseX<menuitems.get(i).startMenuItem.x + menuitems.get(i).itemWidth 
+    && mouseY>menuitems.get(i).startMenuItem.y && mouseY<menuitems.get(i).startMenuItem.y+menuitems.get(i).itemHeight)
+    {
+        fill(255,0,0,60);
+        stroke(0);
+        frameRate(10); //specifies that 10 frames are to be drawn per second - to help illustrate button press to user
+      
+        //give user feedback on button press - glow the selected button red on click
+        rect(menuitems.get(i).startMenuItem.x,menuitems.get(i).startMenuItem.y, menuitems.get(i).itemWidth , menuitems.get(i).itemHeight );
+    }//end if
+  }//end for
+}//end function()

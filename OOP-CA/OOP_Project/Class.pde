@@ -65,11 +65,13 @@ class MenuItem
 {
   String name;
   PVector startMenuItem;
+  float itemWidth=0f;
+  float itemHeight=0f;
   
   MenuItem(TableRow row)
   {
     name = row.getString("Name");
-    startMenuItem = new PVector(0,0);;
+    startMenuItem = new PVector(0,0);
     
   }
   
