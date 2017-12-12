@@ -44,7 +44,7 @@ class Button extends ButtonPane
     
   Button()
   {
-    numButtons=4;
+    numButtons= menuitems.size();
     posTracker = new PVector(width * 0.65, height * 0.10);
     paneWidth = width * 0.25;
     paneHeight = height * 0.80;
@@ -66,13 +66,20 @@ class Button extends ButtonPane
 class MenuItem
 {
   String name;
-  float xCord;
-  float yCord;
+  PVector startMenuItem;
   
-  //MenuItem(TableRow row)
-  //{
-  //  name = row.getString("Name");
+  MenuItem(TableRow row)
+  {
+    name = row.getString("Name");
     
-  //}
+  }
   
-}
+  String toString()
+  {
+    
+    return name;
+  } //end toString()
+  
+ 
+  
+}//end classification
