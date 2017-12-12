@@ -4,19 +4,27 @@
 
 //Global Variables:
 ArrayList<MenuItem> menuitems = new ArrayList<MenuItem>(); 
-HomeBG Background = new HomeBG(); 
+ArrayList<HomeBG> backgrounds = new ArrayList<HomeBG>(); 
+
+
+int state=-1;
 
 //font setup
 PFont martianFont;
 PFont martianFontBold;
 PFont martianFontBlock;
+int bigSize = 48;
 int titleSize=32;
 int bodySize=18;
+int smallSize=14;
 
 int alpha = 1, delta = 1; 
 
 Table table;
 float InitialAngle = 0;
+
+float buttonWidth;
+float buttonHeight;
 
 void setup()
 {
@@ -26,27 +34,77 @@ void setup()
   loadData();
 
   
-  Background.filename = "default1.jpg";
-  Background.BG = loadImage(Background.filename);
+  for (int i=0; i<5; i++)
+  {
+    HomeBG Background = new HomeBG(); 
+    backgrounds.add(Background);
+  }
+  
+  //load multiple images
+  backgrounds.get(0).filename="home.jpg";
+  backgrounds.get(0).BG = loadImage(backgrounds.get(0).filename);
+  
+  backgrounds.get(1).filename="mission.jpeg";
+  backgrounds.get(1).BG = loadImage(backgrounds.get(1).filename);
+  
+  backgrounds.get(2).filename="astro.jpg";
+  backgrounds.get(2).BG = loadImage(backgrounds.get(2).filename);
+  
+  backgrounds.get(3).filename="mars.jpg";
+  backgrounds.get(3).BG = loadImage(backgrounds.get(3).filename);
+  
+  backgrounds.get(4).filename="space.jpeg";
+  backgrounds.get(4).BG = loadImage(backgrounds.get(4).filename);
+  
   martianFont = createFont("Gridnik", titleSize);
   martianFontBold = createFont("GridnikBold.otf", titleSize);
   martianFontBlock = createFont("Impact.ttf", titleSize);
-
+  
+  
 }//end setup
 
 
 
 void draw()
-{
-  //ButtonPane Container = new ButtonPane();  //<>//
+{ //<>//
   
-  image(Background.BG,Background.posTracker.x,Background.posTracker.y,width, height);
-  drawMenu();
-  drawBarsNdStaticMenu();
-  //Hoverchecker();
-  twinkle(); 
-
-}
+  
+  //dashboard
+  if (state ==-1)
+  {
+    image(backgrounds.get(0).BG,backgrounds.get(0).posTracker.x,backgrounds.get(0).posTracker.y,width, height);
+    drawMenu();
+    drawBarsNdStaticMenu();
+    fade(); 
+  }
+  //mission status
+  else if (state==0)
+  {
+    image(backgrounds.get(1).BG,backgrounds.get(1).posTracker.x,backgrounds.get(1).posTracker.y,width, height);
+    
+  }
+  
+  //astronaut
+  else if (state==1)
+  {
+    image(backgrounds.get(2).BG,backgrounds.get(2).posTracker.x,backgrounds.get(2).posTracker.y,width, height);
+    
+  }
+  
+  //mars variables
+  else if (state==2)
+  {
+    image(backgrounds.get(3).BG,backgrounds.get(3).posTracker.x,backgrounds.get(3).posTracker.y,width, height);
+    
+  }
+  
+  //spaceship sitrep
+  else if (state==3)
+  {
+    image(backgrounds.get(4).BG,backgrounds.get(4).posTracker.x,backgrounds.get(4).posTracker.y,width, height);
+    
+  }
+}//end draw
 
 void drawMenu()
 {
@@ -57,24 +115,42 @@ void drawMenu()
   float boxWidth = width*.20;
   float boxHeight = height*0.8;
   
-  float buttonWidth = boxWidth;
-  float buttonHeight = boxHeight/(menuitems.size()*2);
+  buttonWidth = boxWidth;
+  buttonHeight = boxHeight/(menuitems.size()*2);
   noFill();
-  rect(boxStartX, boxStartY, boxWidth, boxHeight);
+  //rect(boxStartX, boxStartY, boxWidth, boxHeight);
   textAlign(RIGHT, CENTER);
 
-  textFont(martianFontBold);
-  textSize(bodySize);
-  fill(255);
-  
   float gapY = boxHeight/(menuitems.size()*2);
   
   for (int i = 0; i<menuitems.size(); i++)
   {
-    text(menuitems.get(i).Name, boxStartX+buttonWidth , boxStartY+ (buttonHeight/2));
-    //save button hotspots for button hovering/clicking
-    //where does the text start...
+    textFont(martianFontBlock);
+    fill(255,255,255,alpha);
+    textSize(bodySize);
     
+    text(menuitems.get(i).Name, boxStartX+buttonWidth , boxStartY+ (buttonHeight/2));
+    textFont(martianFont);
+    textSize(titleSize*.85);
+    switch(i)
+    {
+      case 0: 
+              text("Status", boxStartX+buttonWidth , (boxStartY+(buttonHeight/2))+titleSize);
+              break;
+      case 1:
+              text("Updates", boxStartX+buttonWidth , (boxStartY+(buttonHeight/2))+titleSize);
+              break;
+      
+      case 2: 
+              text("Variables", boxStartX+buttonWidth , (boxStartY+(buttonHeight/2))+titleSize);
+              break;
+      
+      case 3: 
+              text("SITREP", boxStartX+buttonWidth , (boxStartY+(buttonHeight/2))+titleSize);
+              break;
+    }
+        
+    //save button hotspots for button hovering/clicking
     menuitems.get(i).buttonStart.x = boxStartX;
     menuitems.get(i).buttonStart.y = boxStartY;
     boxStartY += gapY ;
@@ -82,9 +158,21 @@ void drawMenu()
    }//end for
 }//end function()
 
-void mouseClicked()
+void mousePressed()
 {
+  println(buttonWidth);
+  println(buttonHeight);
+  
   //deal with button clicks 
+  for(int i=0; i<menuitems.size(); i++)
+  {
+    if(mouseX>menuitems.get(i).buttonStart.x && mouseX<menuitems.get(i).buttonStart.x + buttonWidth 
+    && mouseY>menuitems.get(i).buttonStart.y && mouseY<menuitems.get(i).buttonStart.y + buttonHeight)
+    {
+        state=i;
+        
+    }//end if
+  }//end for
 }
 
 //Method: loadData()
@@ -92,7 +180,7 @@ void mouseClicked()
 void loadData()
 {
 
-  table = loadTable("menu1.csv", "header");
+  table = loadTable("menu.csv", "header");
   
   for (TableRow row : table.rows()) 
   {
@@ -114,6 +202,7 @@ void drawBarsNdStaticMenu()
 {
   float insetX = width*.05;
   float insetY = height*.1;
+  float yCounter=275;
   
   stroke(255,255,255,alpha);
   strokeWeight(2.5);
@@ -126,7 +215,7 @@ void drawBarsNdStaticMenu()
   textFont(martianFont);
   
   fill(255,255,255,alpha);
-  text("MISSION DAY", width/8, insetY+titleSize);
+  text("MISSION DAY", width/8, insetY+bigSize);
   textFont(martianFontBold);
   text("SOL: 22", (width/8), insetY*2);
   PVector wheelCords = new PVector((width/8)*2.25, insetY*2);
@@ -138,44 +227,48 @@ void drawBarsNdStaticMenu()
   
   fill(255,255,255,alpha);
   textFont(martianFontBold);
-  textSize(14);
-  text("PRESSURE", width/8, 275);
+  textSize(smallSize);
+  text("PRESSURE", width/8, yCounter);
   fill(255,255,255,alpha);
   textFont(martianFont);
-  textSize(48);
-  text("14.56psi", (width/8), 315);
-  
-  
-  fill(255,255,255,alpha);
-  textFont(martianFontBold);
-  textSize(14);
-  text("OXYGEN", width/8, 375);
-  fill(255,255,255,alpha);
-  textFont(martianFont);
-  textSize(48);
-  text("30.52%", (width/8), 415);
+  textSize(bigSize);
+  yCounter+=bigSize;
+  text("14.56psi", (width/8), yCounter);
+  yCounter+=bigSize;
   
   fill(255,255,255,alpha);
   textFont(martianFontBold);
-  textSize(14);
-  text("ENVIRONMENT", width/8, 475);
+  textSize(smallSize);
+  text("OXYGEN", width/8, yCounter);
   fill(255,255,255,alpha);
   textFont(martianFont);
-  textSize(48);
-  text("52.11c", (width/8), 515);
+  textSize(bigSize);
+  yCounter+=bigSize;
+  text("30.52%", (width/8), yCounter);
+  
+  fill(255,255,255,alpha);
+  textFont(martianFontBold);
+  textSize(smallSize);
+  yCounter+=bigSize;
+  text("ENVIRONMENT", width/8, yCounter);
+  fill(255,255,255,alpha);
+  textFont(martianFont);
+  textSize(bigSize);
+  yCounter+=bigSize;
+  text("52.11c", (width/8), yCounter);
   
   textAlign(RIGHT);
   
   fill(255,255,255,alpha);
   textFont(martianFontBold);
-  textSize(14);
+  textSize(smallSize);
   text("TIME", (width-insetX)-200, insetY+titleSize);
   fill(255,255,255,alpha);
   text(time(), (width-insetX)-120, insetY+titleSize);
   
   fill(255,255,255,alpha);
   textFont(martianFontBold);
-  textSize(14);
+  textSize(smallSize);
   text("LOG ENTRY", (width-insetX)-210, insetY+(titleSize*1.5));
   fill(255,255,255,alpha);
   text("WATNEY #8", (width-insetX)-120, insetY+(titleSize*1.5));
@@ -183,7 +276,7 @@ void drawBarsNdStaticMenu()
   textAlign(LEFT);
   fill(255,255,255,alpha);
   textFont(martianFontBlock);
-  textSize(48);
+  textSize(bigSize);
   text("HAB", width/8, 600);
   fill(255,255,255,alpha);
   textFont(martianFontBold);
@@ -200,7 +293,7 @@ void drawBarsNdStaticMenu()
   textAlign(LEFT);
   fill(255,255,255,alpha);
   textFont(martianFontBlock);
-  textSize(14);
+  textSize(smallSize);
 
   
    text("CONNECTED: "+"XX-"+hex(randnum[(int)random(0,9)])+"-MM"+hex(randnum[(int)random(0,9)])+"-K2"+hex(randnum[(int)random(0,9)]), width/8, 620);
@@ -236,30 +329,9 @@ void loadWheel(PVector Cords)
   popMatrix();
 }
 
-//void Hoverchecker()
-//{
-//  for(int i=0; i<menuitems.size(); i++)
-//  {
-//    if(mouseX>menuitems.get(i).startMenuItem.x && mouseX<menuitems.get(i).startMenuItem.x + menuitems.get(i).itemWidth 
-//    && mouseY>menuitems.get(i).startMenuItem.y && mouseY<menuitems.get(i).startMenuItem.y+menuitems.get(i).itemHeight)
-//    {
-//        fill(255,255,255);
-//        noStroke();
-//        frameRate(10); //specifies that 10 frames are to be drawn per second - to help illustrate button press to user
-      
-//        //give user feedback on menu hover - glow the selected button red
-//        rect(menuitems.get(i).startMenuItem.x,menuitems.get(i).startMenuItem.y, menuitems.get(i).itemWidth , menuitems.get(i).itemHeight,4,4,4,4 );
-//        fill(0);
-        
-//        textFont(martianFontBold);
-//        textSize(titleSize);
-//        textAlign(RIGHT);
-//        text(menuitems.get(i).name, (width-insetX)-120, menuitems.get(i).startMenuItem.y);
-//    }//end if
-//  }//end for
-//}//end function()
 
-void twinkle() { 
+
+void fade() { 
   //fade in
   
   if (alpha <255)
@@ -267,4 +339,4 @@ void twinkle() {
     alpha += 3; 
   }
   
-} 
+} //end fade

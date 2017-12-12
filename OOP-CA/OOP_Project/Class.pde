@@ -7,9 +7,15 @@ class HomeBG
   
   HomeBG()
   {
+    
     posTracker = new PVector(0,0.00);
   
   }//end product constructor
+  String toString()
+  {
+    
+    return filename;
+  } //end toString()
 }
 
 class Button
