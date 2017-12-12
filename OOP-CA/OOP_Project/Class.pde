@@ -35,17 +35,15 @@ class Button extends ButtonPane
 {
   Float gapY;
   PVector buttonStart;
-  //PVector selectorStart;
   Float buttonWidth;
   Float buttonHeight;
   int numButtons;
-  //Float selectorHeight;
-  //Float selectorWidth;
+
     
   Button()
   {
     numButtons= menuitems.size();
-    posTracker = new PVector(width * 0.65, height * 0.10);
+    posTracker = new PVector(width * 0.6, height * 0.10);
     paneWidth = width * 0.25;
     paneHeight = height * 0.80;
     gapY = paneHeight/(numButtons);
@@ -71,6 +69,7 @@ class MenuItem
   MenuItem(TableRow row)
   {
     name = row.getString("Name");
+    startMenuItem = new PVector(0,0);;
     
   }
   
@@ -79,7 +78,4 @@ class MenuItem
     
     return name;
   } //end toString()
-  
- 
-  
 }//end classification
