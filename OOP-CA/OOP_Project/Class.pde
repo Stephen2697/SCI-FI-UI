@@ -61,6 +61,18 @@ class Button extends ButtonPane
     
     
   }
+}
+
+class MenuItem
+{
+  String name;
+  float xCord;
+  float yCord;
   
+  //MenuItem(TableRow row)
+  //{
+  //  name = row.getString("Name");
+    
+  //}
   
 }
