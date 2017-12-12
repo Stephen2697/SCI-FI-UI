@@ -5,8 +5,9 @@
 //Global Variables:
 ArrayList<MenuItem> menuitems = new ArrayList<MenuItem>(); 
 ArrayList<HomeBG> backgrounds = new ArrayList<HomeBG>(); 
+//ArrayList<MartianVars> marsfacts = new ArrayList<MartianVars>(1); 
 
-
+//Control user's passage...
 int state=-1;
 
 //font setup
@@ -18,6 +19,7 @@ int titleSize=32;
 int bodySize=18;
 int smallSize=14;
 
+//fade content in via a dynamic alpha gradient in every fill() method call
 int alpha = 1, delta = 1; 
 
 Table table;
@@ -32,8 +34,8 @@ void setup()
   size(1200,700);
   frameRate(30);
   loadData();
+  //loadMarsData();
 
-  
   for (int i=0; i<5; i++)
   {
     HomeBG Background = new HomeBG(); 
@@ -80,29 +82,41 @@ void draw()
   //mission status
   else if (state==0)
   {
-    image(backgrounds.get(1).BG,backgrounds.get(1).posTracker.x,backgrounds.get(1).posTracker.y,width, height);
     
+    image(backgrounds.get(1).BG,backgrounds.get(1).posTracker.x,backgrounds.get(1).posTracker.y,width, height);
+  
+    drawBarsNdStaticMenu();
+    mission();
+    fade(); 
+    home();
   }
   
   //astronaut
   else if (state==1)
   {
     image(backgrounds.get(2).BG,backgrounds.get(2).posTracker.x,backgrounds.get(2).posTracker.y,width, height);
-    
+    drawBarsNdStaticMenu();
+    fade(); 
+    home();
   }
   
   //mars variables
   else if (state==2)
   {
     image(backgrounds.get(3).BG,backgrounds.get(3).posTracker.x,backgrounds.get(3).posTracker.y,width, height);
-    
+    drawBarsNdStaticMenu();
+    fade(); 
+    home();
+    //marsVariables();
   }
   
   //spaceship sitrep
   else if (state==3)
   {
     image(backgrounds.get(4).BG,backgrounds.get(4).posTracker.x,backgrounds.get(4).posTracker.y,width, height);
-    
+    drawBarsNdStaticMenu();
+    fade(); 
+    home();
   }
 }//end draw
 
@@ -162,6 +176,11 @@ void mousePressed()
 {
   println(buttonWidth);
   println(buttonHeight);
+  if (mouseX>  (width/2)-100 && mouseX<(width/2)+100
+  && mouseY>(height*.1+bigSize)-100 && mouseY<(height*.1+bigSize)+100)
+  {
+    state=-1;
+  }
   
   //deal with button clicks 
   for(int i=0; i<menuitems.size(); i++)
@@ -295,8 +314,7 @@ void drawBarsNdStaticMenu()
   textFont(martianFontBlock);
   textSize(smallSize);
 
-  
-   text("CONNECTED: "+"XX-"+hex(randnum[(int)random(0,9)])+"-MM"+hex(randnum[(int)random(0,9)])+"-K2"+hex(randnum[(int)random(0,9)]), width/8, 620);
+  text("CONNECTED: "+"XX-"+hex(randnum[(int)random(0,9)])+"-MM"+hex(randnum[(int)random(0,9)])+"-K2"+hex(randnum[(int)random(0,9)]), width/8, 620);
 
 
 } //end drawBarsNdStaticMenu()
@@ -340,3 +358,60 @@ void fade() {
   }
   
 } //end fade
+
+void home()
+{
+  fill(255,255,255,alpha);
+  textSize(bodySize);
+  textAlign(CENTER);
+  textFont(martianFontBold);
+  text("Dashboard", width/2,height*.1+bigSize);
+}
+
+void mission()
+{
+  float boxStartX = width*.65;
+  float boxStartY = height*0.2;
+  
+  float boxWidth = width*.20;
+  float boxHeight = height*0.8;
+  
+  buttonWidth = boxWidth;
+  buttonHeight = boxHeight/(menuitems.size()*2);
+  float gapY = boxHeight/(menuitems.size()*2);
+  
+  textAlign(RIGHT, CENTER);
+  textFont(martianFontBlock);
+  fill(255,255,255,alpha);
+  textSize(bodySize);
+  text("Mission Brief:",boxStartX+buttonWidth, boxStartY+ (buttonHeight/2));
+  boxStartY += gapY ;
+  textFont(martianFont);
+  textSize(titleSize*.5);
+  text("<----SAVE MARK WATNEY!",boxStartX+buttonWidth, boxStartY+ (buttonHeight/2));
+  
+ 
+}//end mission()
+
+//void marsVariables()
+//{
+
+  
+//}//end marsVariables()
+
+//void loadMarsData()
+//{
+
+//  table = loadTable("mars_factsheet.csv", "header");
+  
+//  for (TableRow row : table.rows()) 
+//  {
+  
+//      //declare instance of object MenuItem & carry out constructor
+//      MartianVars Facts = new MartianVars(row);
+//      marsfacts.add(Facts);
+    
+//  }
+  
+
+//}//end loadData()
