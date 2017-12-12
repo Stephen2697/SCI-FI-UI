@@ -3,7 +3,9 @@
 //Version: BETA C1
 
 //Global Variables:
+
 HomeBG Background = new HomeBG(); 
+
 
 //font setup
 PFont myFont;
@@ -12,7 +14,8 @@ PFont myFont;
 
 void setup()
 {
-  size(1200, 700);
+  //fullScreen();
+  size(1200,700);
 
   //Background.posTracker = new PVector(0, 0);
   Background.filename = "/Users/Stephen/Desktop/SCI-FI-UI/OOP-CA/OOP_Project/data/default.jpg";
@@ -21,8 +24,11 @@ void setup()
   
 }
 
+
+
 void draw()
 {
+  ButtonPane Container = new ButtonPane(); 
   stroke(0);
   background(0);
   image(Background.BG,Background.posTracker.x,Background.posTracker.y);
@@ -31,7 +37,11 @@ void draw()
   textAlign(CENTER, CENTER);
   //textSize(relativeTitleTextSize);
   textFont(myFont);
+  fill(255,0,0);
   text("mOS BETA - Martian UI", width/2, height/12);
+  
+  stroke(255);
+  rect(Container.posTracker.x, Container.posTracker.y, Container.paneWidth, Container.paneHeight);
   
   
 }
