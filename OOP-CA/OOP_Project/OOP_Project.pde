@@ -12,6 +12,8 @@ PFont martianFontBold;
 PFont martianFontBlock;
 int titleSize=32;
 int bodySize=18;
+float insetX;
+float insetY;
 
 Table table;
 float InitialAngle = 0;
@@ -40,16 +42,10 @@ void draw()
 {
   //ButtonPane Container = new ButtonPane(); 
   
-  stroke(0);
-  background(0);
-  image(Background.BG,Background.posTracker.x,Background.posTracker.y);
-  
-  
+  image(Background.BG,Background.posTracker.x,Background.posTracker.y,width, height);
   drawMenu();
-  if (frameCount %2==0)
-  {
-    drawBarsNdStaticMenu();
-  }
+  drawBarsNdStaticMenu();
+
 }
 
 void drawMenu()
@@ -59,17 +55,15 @@ void drawMenu()
   
   for (int i = 0; i<MenuButton.numButtons; i++)
   {
-    fill(0,0,128,0.5);
-    strokeWeight(1.0);
-    stroke(128);
 
-    rect(MenuButton.buttonStart.x, MenuButton.buttonStart.y, MenuButton.buttonWidth, MenuButton.buttonHeight, 3, 6, 12, 18 );
-    textAlign(CENTER, CENTER);
+    //rect(MenuButton.buttonStart.x, MenuButton.buttonStart.y-titleSize, MenuButton.buttonWidth, MenuButton.buttonHeight, 3, 6, 12, 18 );
+    textAlign(RIGHT, CENTER);
     
-    textFont(martianFont);
+  
+    textFont(martianFontBold);
     textSize(titleSize*.8);
     fill(255);
-    text(menuitems.get(i).name, MenuButton.buttonStart.x + (MenuButton.buttonWidth/2), MenuButton.buttonStart.y + (MenuButton.buttonHeight/2));
+    text(menuitems.get(i).name, MenuButton.buttonStart.x + MenuButton.buttonWidth, MenuButton.buttonStart.y);
     
     //save button hotspots for button hovering/clicking
     menuitems.get(i).startMenuItem.x = MenuButton.buttonStart.x;
@@ -113,8 +107,8 @@ for (TableRow row : table.rows())
 
 void drawBarsNdStaticMenu()
 {
-  float insetX = width*.05;
-  float insetY = height*.1;
+  insetX = width*.05;
+  insetY = height*.1;
   
   stroke(255);
   strokeWeight(2.5);

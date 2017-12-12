@@ -7,7 +7,7 @@ class HomeBG
   
   HomeBG()
   {
-    posTracker = new PVector(-500,0.00);
+    posTracker = new PVector(0,0.00);
   
   }//end product constructor
 }
@@ -38,7 +38,8 @@ class Button extends ButtonPane
   Float buttonWidth;
   Float buttonHeight;
   int numButtons;
-
+  float insetX;
+  float insetY;
     
   Button()
   {
@@ -46,16 +47,15 @@ class Button extends ButtonPane
     posTracker = new PVector(width * 0.6, height * 0.10);
     paneWidth = width * 0.25;
     paneHeight = height * 0.80;
-    gapY = paneHeight/(numButtons);
+    gapY = paneHeight/(numButtons*1.5);
     
-    buttonStart = new PVector((posTracker.x+paneWidth*.25), posTracker.y+(paneHeight*.1));
-    //selectorStart =  new PVector(posTracker.x-20, posTracker.y-20);
+    
+  
+    buttonStart = new PVector(width*.65, 275);
     
     buttonWidth = paneWidth * 0.99;
     buttonHeight = (paneHeight * 0.5)/6;
-    
-    //selectorHeight = buttonHeight*1.2;
-    //selectorWidth = buttonWidth*1.2;
+
     
     
   }
