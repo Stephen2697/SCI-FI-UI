@@ -57,18 +57,19 @@ void drawMenu()
   for (int i = 0; i<MenuButton.numButtons; i++)
   {
 
-    rect(MenuButton.buttonStart.x, MenuButton.buttonStart.y-titleSize, MenuButton.buttonWidth, MenuButton.buttonHeight);
+    //rect(MenuButton.buttonStart.x, MenuButton.buttonStart.y-titleSize, MenuButton.buttonWidth, MenuButton.buttonHeight);
     textAlign(RIGHT, CENTER);
     
   
     textFont(martianFontBold);
     textSize(titleSize*.8);
     fill(255);
-    text(menuitems.get(i).name, MenuButton.buttonStart.x + MenuButton.buttonWidth, MenuButton.buttonStart.y);
+    text(menuitems.get(i).name, MenuButton.buttonStart.x, MenuButton.buttonStart.y);
     
     //save button hotspots for button hovering/clicking
+    //where does the text start...
     menuitems.get(i).startMenuItem.x = MenuButton.buttonStart.x;
-    menuitems.get(i).startMenuItem.y = MenuButton.buttonStart.y-titleSize;
+    menuitems.get(i).startMenuItem.y = MenuButton.buttonStart.y;
     menuitems.get(i).itemWidth = MenuButton.buttonWidth;
     menuitems.get(i).itemHeight = MenuButton.buttonHeight;
     
@@ -235,12 +236,18 @@ void Hoverchecker()
     if(mouseX>menuitems.get(i).startMenuItem.x && mouseX<menuitems.get(i).startMenuItem.x + menuitems.get(i).itemWidth 
     && mouseY>menuitems.get(i).startMenuItem.y && mouseY<menuitems.get(i).startMenuItem.y+menuitems.get(i).itemHeight)
     {
-        fill(255,0,0,60);
-        stroke(0);
+        fill(255,255,255);
+        noStroke();
         frameRate(10); //specifies that 10 frames are to be drawn per second - to help illustrate button press to user
       
-        //give user feedback on button press - glow the selected button red on click
-        rect(menuitems.get(i).startMenuItem.x,menuitems.get(i).startMenuItem.y, menuitems.get(i).itemWidth , menuitems.get(i).itemHeight );
+        //give user feedback on menu hover - glow the selected button red
+        rect(menuitems.get(i).startMenuItem.x,menuitems.get(i).startMenuItem.y, menuitems.get(i).itemWidth , menuitems.get(i).itemHeight,4,4,4,4 );
+        fill(0,0,0);
+        
+        textFont(martianFontBold);
+        textSize(titleSize);
+        textAlign(RIGHT);
+        text(menuitems.get(i).name, (menuitems.get(i).startMenuItem.x+menuitems.get(i).itemWidth)*.98, menuitems.get(i).startMenuItem.y*1.1);
     }//end if
   }//end for
 }//end function()
